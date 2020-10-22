@@ -58,8 +58,6 @@ process MovieFileSetup {
 */
 process DtraxWings {
 
-    echo true
-
     container = "registry.int.janelia.org/heberlein/duotrax:1.0"
     containerOptions = "-B $configDir"
     cpus 1
