@@ -1,5 +1,7 @@
 # Fly Social Pipeline
 
+![Pipeline Diagram](docs/pipeline-diagram.png)
+
 ## Usage
 
 You must have [Nextflow](https://www.nextflow.io) and [Singularity](https://sylabs.io) installed before running the pipeline.
@@ -14,5 +16,4 @@ You must have [Nextflow](https://www.nextflow.io) and [Singularity](https://syla
 ./pipeline.nf -profile lsf -with-tower 'http://nextflow.int.janelia.org/api' --in /path/to/avis --config /path/to/config
 ```
 This also uses the internal Janelia instance of Nextflow Tower.
-
 
