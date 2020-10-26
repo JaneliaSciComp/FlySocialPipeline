@@ -1,6 +1,6 @@
 # Fly Social Pipeline
 
-![Pipeline Diagram](docs/pipeline-diagram.png)
+![Pipeline Diagram](docs/pipeline_diagram.png)
 
 ## Usage
 
