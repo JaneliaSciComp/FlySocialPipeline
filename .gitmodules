@@ -1,5 +1,5 @@
 [submodule "external-modules/duotrax-fixerrors"]
-	path = external-modules/duotrax-fixeerrors
+	path = external-modules/duotrax-fixerrors
 	url = git@github.com:allenleetc/duotrax-fixerrors.git
 	branch = jspipeline
 [submodule "external-modules/jaaba"]

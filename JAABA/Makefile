@@ -1,8 +1,5 @@
-MATLAB_ROOT = /misc/local/matlab-2019a
-MCC = ${MATLAB_ROOT}/bin/mcc
-DOCKER = docker
-VERSION = 1.0
-DOCKER_REGISTRY = registry.int.janelia.org
+include ../base.mk
+
 CONTAINER_NAME = jaabadetect
 
 FEATURE_PARAMS = animalList.xml \
@@ -57,31 +54,25 @@ INCLUDED_FEATURE_PARAMS := $(addprefix -a ${JAABA_DIR}/perframe/params/, ${FEATU
 
 OBJS := $(addprefix bin/, JAABADetect dtfe_append)
 
-.PHONY: all clean
-
 all: ${OBJS}
 
-bin/JAABADetect.ctf: ${JAABA_DIR}/perframe/JAABADetect.m
+bin/JAABADetect.ctf:: ${JAABA_DIR}/perframe/JAABADetect.m
 	echo "Create application CTF archive"
 	-mkdir -p bin
 	${MCC} \
         -v \
         -c \
-        -m JAABADetect \
-        -d bin \
-        ${JAABA_DEPS}
+        -m JAABADetect -d bin ${JAABA_DEPS}
 
-bin/JAABADetect: bin/JAABADetect.ctf
+bin/JAABADetect:: bin/JAABADetect.ctf
 	echo "Create application standalone executable"
 	-mkdir -p bin
 	${MCC} \
         -v \
         -C \
-        -m JAABADetect \
-        -d bin \
-        ${JAABA_DEPS}
+        -m JAABADetect -d bin ${JAABA_DEPS}
 
-bin/dtfe_append.ctf: src/matlab/dtfe_append/appendScoresBatch.m
+bin/dtfe_append.ctf:: src/matlab/dtfe_append/appendScoresBatch.m
 	echo "Create dtfe_append CTF archive"
 	-mkdir -p bin
 	${MCC} \
@@ -91,7 +82,7 @@ bin/dtfe_append.ctf: src/matlab/dtfe_append/appendScoresBatch.m
         -o dtfe_append \
         -I src/matlab/dtfe_append
 
-bin/dtfe_append: bin/dtfe_append.ctf
+bin/dtfe_append:: bin/dtfe_append.ctf
 	echo "Create standalone dtfe_append executable"
 	-mkdir -p bin
 	${MCC} \
@@ -101,14 +92,8 @@ bin/dtfe_append: bin/dtfe_append.ctf
         -o dtfe_append \
         -I src/matlab/dtfe_append
 
-buildDockerImage: bin/JAABADetect bin/dtfe_append
+buildDockerImage:: bin/JAABADetect bin/dtfe_append
 	${DOCKER} build . \
 	-t ${CONTAINER_NAME} \
 	-t ${DOCKER_REGISTRY}/heberlein/${CONTAINER_NAME} \
 	-t ${DOCKER_REGISTRY}/heberlein/${CONTAINER_NAME}:${VERSION}
-
-dockerImage: buildDockerImage
-	${DOCKER} push ${DOCKER_REGISTRY}/heberlein/${CONTAINER_NAME}:${VERSION}
-
-clean:
-	-rm -rf bin

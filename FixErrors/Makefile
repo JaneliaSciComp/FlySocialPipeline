@@ -1,8 +1,5 @@
-MATLAB_ROOT = /misc/local/matlab-2019a
-MCC = ${MATLAB_ROOT}/bin/mcc
-DOCKER = docker
-VERSION = 1.0
-DOCKER_REGISTRY = registry.int.janelia.org
+include ../base.mk
+
 CONTAINER_NAME = fixerrors
 
 DTFE_DIR = ../external-modules/duotrax-fixerrors
@@ -25,7 +22,7 @@ BUILD_OPTS = \
         -I ${DTFE_DIR}/matlab/netlab \
         -I ${DTFE_DIR}/matlab/misc
 
-bin/fixerrors.ctf: ${DTFE_DIR}/fixerrors/fixerrors.m
+bin/fixerrors.ctf:: ${DTFE_DIR}/fixerrors/fixerrors.m
 	echo "Create fixerrors CTF archive"
 	-mkdir -p bin
 	${MCC} \
@@ -33,7 +30,7 @@ bin/fixerrors.ctf: ${DTFE_DIR}/fixerrors/fixerrors.m
         -c \
         ${BUILD_OPTS}
 
-bin/fixerrors: bin/fixerrors.ctf
+bin/fixerrors:: bin/fixerrors.ctf
 	echo "Create fixerrors standalone executable"
 	-mkdir -p bin
 	${MCC} \
@@ -41,14 +38,8 @@ bin/fixerrors: bin/fixerrors.ctf
         -C \
         ${BUILD_OPTS}
 
-buildDockerImage: bin/fixerrors
+buildDockerImage:: bin/fixerrors
 	${DOCKER} build . \
         -t ${CONTAINER_NAME} \
         -t ${DOCKER_REGISTRY}/heberlein/${CONTAINER_NAME} \
         -t ${DOCKER_REGISTRY}/heberlein/${CONTAINER_NAME}:${VERSION}
-
-dockerImage: buildDockerImage
-	${DOCKER} push ${DOCKER_REGISTRY}/heberlein/${CONTAINER_NAME}:${VERSION}
-
-clean:
-	-rm -rf bin
