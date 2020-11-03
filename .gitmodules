@@ -1,0 +1,10 @@
+[submodule "external-modules/duotrax-fixerrors"]
+	path = external-modules/duotrax-fixeerrors
+	url = git@github.com:allenleetc/duotrax-fixerrors.git
+	branch = jspipeline
+[submodule "external-modules/jaaba"]
+	path = external-modules/jaaba
+	url = git@github.com:kristinbranson/JAABA.git
+[submodule "external-modules/cbtrack"]
+	path = external-modules/cbtrack
+	url = git@github.com:kristinbranson/cbtrack_GUI.git
