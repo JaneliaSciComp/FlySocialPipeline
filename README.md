@@ -2,6 +2,23 @@
 
 ![Pipeline Diagram](docs/pipeline_diagram.png)
 
+## Check out the code
+```
+git clone git@github.com:JaneliaSciComp/FlySocialPipeline
+```
+
+### Pull external modules
+
+* First time
+```
+git submodule update --init --recursive
+```
+
+* Not first time
+```
+git pull --recurse-submodules
+```
+
 ## Usage
 
 You must have [Nextflow](https://www.nextflow.io) and [Singularity](https://sylabs.io) installed before running the pipeline.
