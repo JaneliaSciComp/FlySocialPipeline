@@ -45,6 +45,7 @@ process MovieFileSetup {
     val "$outputDir/${aviFile.simpleName}" into experiments_to_process
 
     """
+    umask 0002
     experimentPath="$outputDir/$experimentName"
     if [[ ! -d \$experimentPath ]]; then
         mkdir -p \$experimentPath
@@ -71,7 +72,10 @@ process DtraxWings {
     val experimentPath into experiments_tracked
 
     """
-    /app/entrypoint.sh -e $experimentPath -xml $configDir/Clstr3R_params.xml -s $configDir/DuoTrax/base
+    /app/entrypoint.sh \
+        -e $experimentPath \
+        -xml $configDir/Clstr3R_params.xml \
+        -s $configDir
     """
 }
 
@@ -88,7 +92,9 @@ process GeneratePerFrameData {
     stdout into result
 
     """
-    /app/entrypoint -e $experimentPath -jl $configDir/LEC.txt
+    /app/entrypoint \
+        -e $experimentPath \
+        -jl $configDir/LEC.txt
     """
 }
 
