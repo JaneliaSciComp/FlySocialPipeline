@@ -1,5 +1,7 @@
 FROM ubuntu:16.04
 
+LABEL org.opencontainers.image.licenses="BSD-3-Clause"
+
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
     build-essential \

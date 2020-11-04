@@ -1,5 +1,7 @@
 FROM scientificlinux/sl:7
 
+LABEL org.opencontainers.image.licenses="BSD-3-Clause"
+
 RUN yum install -y \
         wget unzip \
         libXt libXext libXmu libXrender libXcomposite
