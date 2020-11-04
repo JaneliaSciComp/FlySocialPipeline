@@ -12,10 +12,12 @@
 params.config = "/nrs/scicompsoft/jspipeline/ConfigFiles"
 params.in = "$HOME/movies"
 params.out = "$baseDir/output"
+params.crepo = "registry.int.janelia.org/heberlein"
 
 configDir = file(params.config)
 inputDir = file(params.in)
 outputDir = file(params.out)
+containersRepository = params.crepo
 
 if( !inputDir.exists() ) {
   error "The specified input directory does not exist: ${params.in}"
