@@ -92,7 +92,7 @@ trackResult.subscribe { println it }
  * Generate perframe data
  */
 process GeneratePerFrameData {
-    label: supportsCPUParallelism
+    label supportsCPUParallelism
 
     container = "$containersRepository/jaabadetect:1.0"
 
@@ -141,7 +141,7 @@ imageStackResult.subscribe { println it }
  * Run Deep ID Classifier
  */
 process RunVGGClassifier {
-    label: requireGPU
+    label requireGPU
 
     container = "$containersRepository/vggclassifier:1.0"
     cpus 1
