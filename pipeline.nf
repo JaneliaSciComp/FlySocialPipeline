@@ -7,6 +7,7 @@
         in: input directory containing avi movies
         out: output directory
         config: configuration directory
+        crepo: container repository
 */
 
 params.config = "/nrs/scicompsoft/jspipeline/ConfigFiles"
@@ -27,7 +28,6 @@ log.info "Processing input: $inputDir"
 /*
     Set up output directory
 */
-outputDir.mkdirs()
 log.info "Saving results to: $outputDir"
 
 roiFile = file("${configDir}/roidata.mat")
@@ -45,7 +45,7 @@ process MovieFileSetup {
     val "$outputDir/${aviFile.simpleName}" into experiments_to_process
 
     """
-    umask 0002
+    umask 0000
     experimentPath="$outputDir/$experimentName"
     if [[ ! -d \$experimentPath ]]; then
         mkdir -p \$experimentPath
@@ -81,7 +81,6 @@ process DtraxWings {
 
 process GeneratePerFrameData {
     container = "$containersRepository/jaabadetect:1.0"
-    containerOptions = "-B $configDir"
     cpus 1
 
     input:
@@ -92,7 +91,7 @@ process GeneratePerFrameData {
     stdout into result
 
     """
-    /app/entrypoint \
+    /app/entrypoint.sh \
         -e $experimentPath \
         -jl $configDir/LEC.txt
     """
