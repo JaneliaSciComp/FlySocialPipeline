@@ -120,8 +120,8 @@ process GenerateImageStacks {
     /app/entrypoint.sh \
         $experimentPath \
         1 \
-        $configDir/deepID_values.txt \
-        $configDir/Clstr3R_params.xml
+        $configDir/Clstr3R_params.xml \
+        $configDir/deepID_values.txt
     """
 }
 
