@@ -36,5 +36,5 @@ bin/DuoTrax:: bin/DuoTrax.ctf
 buildDockerImage:: bin/DuoTrax
 	${DOCKER} build . \
         -t ${CONTAINER_NAME} \
-        -t ${DOCKER_REGISTRY}/heberlein/${CONTAINER_NAME} \
-        -t ${DOCKER_REGISTRY}/heberlein/${CONTAINER_NAME}:${VERSION}
+        -t ${DOCKER_REPO}/${CONTAINER_NAME} \
+        -t ${DOCKER_REPO}/${CONTAINER_NAME}:${VERSION}

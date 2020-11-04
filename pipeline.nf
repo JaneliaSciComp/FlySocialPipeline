@@ -59,7 +59,7 @@ process MovieFileSetup {
 */
 process DtraxWings {
 
-    container = "registry.int.janelia.org/heberlein/duotrax:1.0"
+    container = "$containersRepository/duotrax:1.0"
     containerOptions = "-B $configDir"
     cpus 1
 
@@ -75,7 +75,7 @@ process DtraxWings {
 }
 
 process GeneratePerFrameData {
-    container = "registry.int.janelia.org/heberlein/jaabadetect:1.0"
+    container = "$containersRepository/jaabadetect:1.0"
     containerOptions = "-B $configDir"
     cpus 1
 
@@ -91,4 +91,3 @@ process GeneratePerFrameData {
 }
 
 result.subscribe { println it }
-

@@ -5,5 +5,5 @@ CONTAINER_NAME = vggclassifier
 buildDockerImage:: pipeline/classify_fly_wings.py
 	${DOCKER} build . \
         -t ${CONTAINER_NAME} \
-        -t ${DOCKER_REGISTRY}/heberlein/${CONTAINER_NAME} \
-        -t ${DOCKER_REGISTRY}/heberlein/${CONTAINER_NAME}:${VERSION}
+        -t ${DOCKER_REPO}/${CONTAINER_NAME} \
+        -t ${DOCKER_REPO}/${CONTAINER_NAME}:${VERSION}

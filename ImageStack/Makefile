@@ -32,5 +32,5 @@ bin/ImageStack:: bin/ImageStack.ctf
 buildDockerImage:: bin/ImageStack
 	${DOCKER} build . \
         -t ${CONTAINER_NAME} \
-        -t ${DOCKER_REGISTRY}/heberlein/${CONTAINER_NAME} \
-        -t ${DOCKER_REGISTRY}/heberlein/${CONTAINER_NAME}:${VERSION}
+        -t ${DOCKER_REPO}/${CONTAINER_NAME} \
+        -t ${DOCKER_REPO}/${CONTAINER_NAME}:${VERSION}
