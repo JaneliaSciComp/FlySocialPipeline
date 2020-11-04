@@ -16,7 +16,7 @@
 # bsub -n 1 -o /dev/null "bash fly_wings.sh -i <input data folder> -o <output result folder (optional)>"
 
 
-umask 0002
+umask 0000
 
 # Pass over command line arguments to the python script
 python /scripts/classify_fly_wings.py "$@"
