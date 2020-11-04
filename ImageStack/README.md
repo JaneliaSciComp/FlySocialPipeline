@@ -11,7 +11,7 @@
 `make buildDockerImage`
 
 or to also push it to Janelia's docker registry
-`make dockerImage`
+`make pushDockerImage`
 
 ## Running the matlab binary
 

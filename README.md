@@ -19,6 +19,31 @@ git submodule update --init --recursive
 git pull --recurse-submodules
 ```
 
+## Build
+
+To build all executables run
+```
+make
+```
+
+To build container images
+```
+make buildDockerImage
+```
+or to build for a different docker repository than 'registry.int.janelia.org/heberlein'
+```
+DOCKER_REPO=myrepo make -e buildDockerImage
+```
+
+To push container images to the docker repo
+```
+make pushDockerImage
+```
+or
+```
+DOCKER_REPO=myrepo make -e pushDockerImage
+```
+
 ## Usage
 
 You must have [Nextflow](https://www.nextflow.io) and [Singularity](https://sylabs.io) installed before running the pipeline.

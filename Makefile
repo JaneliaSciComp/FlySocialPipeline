@@ -13,9 +13,9 @@ buildDockerImage:
 	    make -C $$dir buildDockerImage; \
 	done
 
-dockerImage:
+pushDockerImage:
 	for dir in $(SUBDIRS); do \
-	    make -C $$dir dockerImage; \
+	    make -C $$dir pushDockerImage; \
 	done
 
 clean:

@@ -7,7 +7,7 @@ DOCKER_REPO = ${DOCKER_REGISTRY}/heberlein
 
 .PHONY: all clean
 
-dockerImage:: buildDockerImage
+pushDockerImage:: buildDockerImage
 	${DOCKER} push ${DOCKER_REPO}/${CONTAINER_NAME}:${VERSION}
 	${DOCKER} push ${DOCKER_REPO}/${CONTAINER_NAME}
 
