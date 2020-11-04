@@ -43,6 +43,7 @@ process MovieFileSetup {
 
     output:
     val "$outputDir/${aviFile.simpleName}" into experiments_to_process
+    stdout into result
 
     """
     experimentPath="$outputDir/$experimentName"
@@ -70,6 +71,7 @@ process DtraxWings {
 
     output:
     val experimentPath into experiments_tracked
+    stdout into result
 
     """
     /app/entrypoint.sh -e $experimentPath -xml $configDir/Clstr3R_params.xml -s $configDir/DuoTrax/base
@@ -86,6 +88,7 @@ process GeneratePerFrameData {
 
     output:
     val experimentPath into experiments_with_perframedata
+    stdout into result
 
     """
     /app/entrypoint -e $experimentPath -jl $configDir/LEC.txt
