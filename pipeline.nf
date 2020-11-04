@@ -8,17 +8,23 @@
         out: output directory
         config: configuration directory
         crepo: container repository
+        xml: xml config file name based on the movie frames
+        withFrameFilter: {0|1} frame filter for generating image stacks
 */
 
 params.config = "/nrs/scicompsoft/jspipeline/ConfigFiles"
 params.in = "$HOME/movies"
 params.out = "$baseDir/output"
 params.crepo = "registry.int.janelia.org/heberlein"
+params.xml = "Clstr3R_params.xml"
+params.withFrameFilter = 1
 
 configDir = file(params.config)
 inputDir = file(params.in)
 outputDir = file(params.out)
 containersRepository = params.crepo
+xmlConfigFile = params.xml
+useFrameFilter = params.withFrameFilter
 
 if( !inputDir.exists() ) {
   error "The specified input directory does not exist: ${params.in}"
@@ -75,7 +81,7 @@ process GenerateTrackData {
     """
     /app/entrypoint.sh \
         -e $experimentPath \
-        -xml $configDir/Clstr3R_params.xml \
+        -xml $configDir/$xmlConfigFile \
         -s $configDir
     """
 }
@@ -119,8 +125,8 @@ process GenerateImageStacks {
     """
     /app/entrypoint.sh \
         $experimentPath \
-        1 \
-        $configDir/Clstr3R_params.xml \
+        $useFrameFilter \
+        $configDir/$xmlConfigFile \
         $configDir/deepID_values.txt
     """
 }
