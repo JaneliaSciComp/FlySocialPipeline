@@ -92,8 +92,9 @@ trackResult.subscribe { println it }
  * Generate perframe data
  */
 process GeneratePerFrameData {
+    label: supportsCPUParallelism
+
     container = "$containersRepository/jaabadetect:1.0"
-    cpus 1
 
     input:
     val experimentPath from experiments_tracked
@@ -111,6 +112,9 @@ process GeneratePerFrameData {
 
 perFrameResult.subscribe { println it }
 
+/**
+ * Generate Image Stacks for the Deep ID Classifier
+ */
 process GenerateImageStacks {
     container = "$containersRepository/imagestack:1.0"
     cpus 1
@@ -132,3 +136,28 @@ process GenerateImageStacks {
 }
 
 imageStackResult.subscribe { println it }
+
+/**
+ * Run Deep ID Classifier
+ */
+process RunVGGClassifier {
+    label: requireGPU
+
+    container = "$containersRepository/vggclassifier:1.0"
+    cpus 1
+
+    input:
+    val experimentPath from experiments_with_imagestackdata
+
+    output:
+    val experimentPath into experiments_with_classifiedstacks
+    stdout into imageStackClassifierResult
+
+    """
+    /scripts/fly_wings.sh \
+        -i $experimentPath \
+        -o $experimentPath/vgg
+    """
+}
+
+imageStackClassifierResult.subscribe { println it }
