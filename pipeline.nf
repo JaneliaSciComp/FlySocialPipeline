@@ -58,9 +58,9 @@ process MovieFileSetup {
 }
 
 /*
-    Duotrax with wings
+ * Generate track data using DuoTrax
 */
-process DtraxWings {
+process GenerateTrackData {
 
     container = "$containersRepository/duotrax:1.0"
     cpus 1
@@ -70,6 +70,7 @@ process DtraxWings {
 
     output:
     val experimentPath into experiments_tracked
+    stdout into trackResult
 
     """
     /app/entrypoint.sh \
@@ -79,6 +80,11 @@ process DtraxWings {
     """
 }
 
+trackResult.subscribe { println it }
+
+/**
+ * Generate perframe data
+ */
 process GeneratePerFrameData {
     container = "$containersRepository/jaabadetect:1.0"
     cpus 1
@@ -88,7 +94,7 @@ process GeneratePerFrameData {
 
     output:
     val experimentPath into experiments_with_perframedata
-    stdout into result
+    stdout into perFrameResult
 
     """
     /app/entrypoint.sh \
@@ -97,4 +103,26 @@ process GeneratePerFrameData {
     """
 }
 
-result.subscribe { println it }
+perFrameResult.subscribe { println it }
+
+process GenerateImageStacks {
+    container = "$containersRepository/imagestack:1.0"
+    cpus 1
+
+    input:
+    val experimentPath from experiments_with_perframedata
+
+    output:
+    val experimentPath into experiments_with_imagestackdata
+    stdout into imageStackResult
+
+    """
+    /app/entrypoint.sh \
+        $experimentPath \
+        1 \
+        $configDir/deepID_values.txt \
+        $configDir/Clstr3R_params.xml
+    """
+}
+
+imageStackResult.subscribe { println it }
