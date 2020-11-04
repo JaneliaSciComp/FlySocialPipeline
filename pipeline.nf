@@ -25,13 +25,14 @@ log.info "Processing input: $inputDir"
 /*
     Set up output directory
 */
-
 outputDir.mkdirs()
 log.info "Saving results to: $outputDir"
 
-roiFile = file(configDir+"/roidata.mat")
+roiFile = file("${configDir}/roidata.mat")
 
-avis_to_process = Channel.fromPath(inputDir+"/*.avi").map { f -> [f.simpleName, f] }
+avis_to_process = Channel
+                    .fromPath("$inputDir/*.avi")
+                    .map { f -> [f.simpleName, f] }
 
 process MovieFileSetup {
 
@@ -66,10 +67,26 @@ process DtraxWings {
     val experimentPath from experiments_to_process
 
     output:
-    stdout into result
+    val experimentPath into experiments_tracked
 
     """
     /app/entrypoint.sh -e $experimentPath -xml $configDir/Clstr3R_params.xml -s $configDir/DuoTrax/base
+    """
+}
+
+process GeneratePerFrameData {
+    container = "registry.int.janelia.org/heberlein/jaabadetect:1.0"
+    containerOptions = "-B $configDir"
+    cpus 1
+
+    input:
+    val experimentPath from experiments_tracked
+
+    output:
+    val experimentPath into experiments_with_perframedata
+
+    """
+    /app/entrypoint -e $experimentPath -jl $configDir/LEC.txt
     """
 }
 
