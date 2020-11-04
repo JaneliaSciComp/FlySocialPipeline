@@ -62,7 +62,6 @@ process MovieFileSetup {
 process DtraxWings {
 
     container = "$containersRepository/duotrax:1.0"
-    containerOptions = "-B $configDir"
     cpus 1
 
     input:
